@@ -28,26 +28,26 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('create todo', async() => {
+    test('post todos', async() => {
 
       const expectation = [
         {
-          'id': 1,
+          'id': 4,
           'todo': 'laundry',
           'completed': false,
-          'owner_id': 1
+          'owner_id': 2
         },
         {
-          'id': 2,
+          'id': 5,
           'todo': 'sort mail',
           'completed': false,
-          'owner_id': 1
+          'owner_id': 2
         },
         {
-          'id': 3,
+          'id': 6,
           'todo': 'dust',
           'completed': false,
-          'owner_id': 1
+          'owner_id': 2
         }
       ];
 
@@ -64,7 +64,7 @@ describe('app routes', () => {
         .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
-
+      console.log(data.body);
       expect(data.body).toEqual(expectation);
     });
 
@@ -72,22 +72,22 @@ describe('app routes', () => {
 
       const expectation = [
         {
-          'id': 1,
+          'id': 4,
           'todo': 'laundry',
           'completed': false,
-          'owner_id': 1
+          'owner_id': 2
         },
         {
-          'id': 2,
+          'id': 5,
           'todo': 'sort mail',
           'completed': false,
-          'owner_id': 1
+          'owner_id': 2
         },
         {
-          'id': 3,
+          'id': 6,
           'todo': 'dust',
           'completed': false,
-          'owner_id': 1
+          'owner_id': 2
         }
       ];
 
@@ -96,30 +96,31 @@ describe('app routes', () => {
         .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
-
+      console.log(data.body);
       expect(data.body).toEqual(expectation);
     });
+
     test('put todos', async() => {
 
       const expectation = [
         {
-          'id': 1,
-          'todo': 'laundry',
-          'completed': false,
-          'owner_id': 1
-        },
-        {
-          'id': 2,
+          'id': 5,
           'todo': 'sort mail',
           'completed': false,
-          'owner_id': 1
+          'owner_id': 2
         },
         {
-          'id': 3,
+          'id': 6,
           'todo': 'dust',
           'completed': false,
-          'owner_id': 1
-        }
+          'owner_id': 2
+        },
+        {
+          'id': 4,
+          'todo': 'laundry',
+          'completed': true,
+          'owner_id': 2
+        },
       ];
 
       await fakeRequest(app)
@@ -133,7 +134,7 @@ describe('app routes', () => {
         .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
-
+      console.log(data.body);
       expect(data.body).toEqual(expectation);
     });
   });
