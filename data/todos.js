@@ -1,7 +1,7 @@
 module.exports = [
   {
     todo: 'laundry',
-    completed: true,
+    completed: false,
   },
   {
     todo: 'sort mail',
