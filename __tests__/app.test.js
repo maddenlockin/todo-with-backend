@@ -28,31 +28,109 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns animals', async() => {
+    test('create todo', async() => {
 
       const expectation = [
         {
           'id': 1,
-          'name': 'bessie',
-          'cool_factor': 3,
+          'todo': 'laundry',
+          'completed': false,
           'owner_id': 1
         },
         {
           'id': 2,
-          'name': 'jumpy',
-          'cool_factor': 4,
+          'todo': 'sort mail',
+          'completed': false,
           'owner_id': 1
         },
         {
           'id': 3,
-          'name': 'spot',
-          'cool_factor': 10,
+          'todo': 'dust',
+          'completed': false,
+          'owner_id': 1
+        }
+      ];
+
+      for (let todo of expectation) {
+        await fakeRequest(app)
+          .post('/api/todos')
+          .send(todo)
+          .set('Authorization', token)
+          .expect('Content-Type', /json/)
+          .expect(200);
+      }
+      const data = await fakeRequest(app)
+        .get('/api/todos')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+
+    test('get todos', async() => {
+
+      const expectation = [
+        {
+          'id': 1,
+          'todo': 'laundry',
+          'completed': false,
+          'owner_id': 1
+        },
+        {
+          'id': 2,
+          'todo': 'sort mail',
+          'completed': false,
+          'owner_id': 1
+        },
+        {
+          'id': 3,
+          'todo': 'dust',
+          'completed': false,
           'owner_id': 1
         }
       ];
 
       const data = await fakeRequest(app)
-        .get('/animals')
+        .get('/api/todos')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
+    test('put todos', async() => {
+
+      const expectation = [
+        {
+          'id': 1,
+          'todo': 'laundry',
+          'completed': false,
+          'owner_id': 1
+        },
+        {
+          'id': 2,
+          'todo': 'sort mail',
+          'completed': false,
+          'owner_id': 1
+        },
+        {
+          'id': 3,
+          'todo': 'dust',
+          'completed': false,
+          'owner_id': 1
+        }
+      ];
+
+      await fakeRequest(app)
+        .put('/api/todos/4')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      const data = await fakeRequest(app)
+        .get('/api/todos')
+        .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
 
